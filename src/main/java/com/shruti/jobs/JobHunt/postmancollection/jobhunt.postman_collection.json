@@ -1,0 +1,144 @@
+{
+  "info": {
+    "_postman_id": "ec253a6f-d9fa-41d4-b2c1-de1321ad708d",
+    "name": "JobHunt",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "19826706"
+  },
+  "item": [
+    {
+      "name": "GetJobs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/jobs",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "jobs"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetJobsById",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/jobs/6643416132f2740742398b74",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "jobs",
+            "6643416132f2740742398b74"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateJobsById",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"role\": \"Full Stack Developer \",\n    \"employmentType\": \"Part-time\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/jobs/6643416132f2740742398b",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "jobs",
+            "6643416132f2740742398b"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Post jobs",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"role\": \"Full Stack Developer \",\n    \"description\": \"Responsible for developing and maintaining software applications.\",\n    \"minExp\": 3,\n    \"maxExp\": 5,\n    \"skills\": [\n        \"Java\",\n        \"Spring Boot\",\n        \"MongoDB\"\n    ],\n    \"location\": \"San Francisco, CA\",\n    \"education\": \"Bachelor's Degree in Computer Science\",\n    \"industryType\": \"Information Technology\",\n    \"department\": \"Engineering\",\n    \"employmentType\": \"Part-time\",\n    \"perks\": [\n        \"Remote Work\",\n        \"flexible working hours\"\n    ],\n    \"company\": \"Tech Innovators Inc.\"\n},\n{\n    \"id\": {\n        \"timestamp\": 1715762791,\n        \"date\": \"2024-05-15T08:46:31.000+00:00\"\n    },\n    \"role\": \"Backend Developer\",\n    \"description\": \"Design, build, and maintain scalable backend systems.\",\n    \"minExp\": 4,\n    \"maxExp\": 7,\n    \"skills\": [\n        \"Java\",\n        \"Spring Boot\",\n        \"Microservices\",\n        \"Docker\"\n    ],\n    \"location\": \"Austin, TX\",\n    \"education\": \"Bachelor's Degree in Software Engineering\",\n    \"industryType\": \"E-commerce\",\n    \"department\": \"Development\",\n    \"employmentType\": \"Contract\",\n    \"perks\": [\n        \"Stock Options\",\n        \"Learning Allowance\"\n    ],\n    \"company\": \"ShopEase Inc.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/jobs",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "jobs"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search Jobs",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"sortBy\" : \"minExp\",\n    \"sort\" : \"ASC\",\n    \"pageNo\" : 2,\n    \"pageSize\" : 2\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/jobs/search?text=\"Developer\"",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "jobs",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "text",
+              "value": "\"Developer\""
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
