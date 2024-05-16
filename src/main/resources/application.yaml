@@ -1,0 +1,6 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://root:root@shruti.pnz9mav.mongodb.net/?retryWrites=true&w=majority&appName=Shruti
+      database: jobs
+      collection: job_post
