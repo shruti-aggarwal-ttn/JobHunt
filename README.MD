@@ -20,6 +20,7 @@ Usually choosing the type of db depends on the requirement of the application. B
     This means you can store documents with different structures in the same collection. 
     It is beneficial when dealing with unstructured or semi-structured data, or when the 
     schema might evolve over time.
+
     MySQL: As a relational database, MySQL enforces a fixed schema. Each row in a table
     must adhere to the predefined schema, which can be restrictive if your data model changes frequently.
 
@@ -28,6 +29,7 @@ Usually choosing the type of db depends on the requirement of the application. B
     MongoDB: Excels in read and write operations, especially with large volumes of data.
     Its document-oriented storage allows for faster retrieval of nested data structures
     without complex JOIN operations.
+
     MySQL: Performs well with structured data and complex queries involving multiple 
     tables and relationships. However, JOIN operations can become a bottleneck with very large
     datasets or highly relational data.
