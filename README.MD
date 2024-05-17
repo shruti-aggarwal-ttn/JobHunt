@@ -53,7 +53,7 @@ var mydoc = {
     last: "Turing" 
   },
   birth: new Date('Jun 23, 1912'),
-  contribs: [ "Turing machine", "Turing test", "Turingery" ],
+  skills: ["Java", "Spring boot"],
   views: NumberLong(1250000)
 }
 ```
@@ -63,7 +63,7 @@ The above fields have the following data types:
 * _id : holds an [ObjectId](#ObjectId).
 * name : holds an embedded document that contains the fields first and last.
 * birth : hold values of the Date type.
-* contribs : holds an array of strings.
+* skills : holds an array of strings.
 * views : holds a value of the NumberLong type.
 
 ### ObjectId
