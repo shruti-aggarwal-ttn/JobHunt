@@ -314,3 +314,190 @@ db.users.deleteMany({ city: "Los Angeles" })
 
 ## Indexing
 Indexes improve the performance of read operations by reducing the amount of data MongoDB needs to scan. 
+
+##### Use Cases :
+
+If your application is repeatedly running queries on the same fields, you can create an index on those fields to improve performance. 
+
+### Create an Index
+To create an index, use the **createIndex()** method
+
+##### Types of Indexes
+1.Single Field Indexes : A single field index is an index on a single field of a document. It is the simplest and most common type of index.
+
+```javascript
+db.users.createIndex({ name: 1 })
+```
+Here, the index is created on the name field in ascending order (**1 for ascending, -1 for descending**).
+
+2.Compound Indexes:
+A compound index is an index on multiple fields. It is useful for queries that match on multiple fields.
+
+```javascript
+db.users.createIndex({ name: 1, age: -1 })
+```
+This creates an index on the name field in ascending order and the age field in descending order.
+
+3.Multikey Indexes :Multikey indexes are used to index fields that hold arrays. Each array value is indexed as a separate value.
+
+```javascript
+db.users.createIndex({ tags: 1 })
+```
+If the tags field contains an array, each element of the array will be indexed.
+
+### Viewing Indexes
+To view all indexes on a collection, use the getIndexes method.
+
+```javascript
+db.collection.getIndexes()
+```
+### Dropping an Index
+1.To drop an index, use the dropIndex method.
+
+```javascript
+db.collection.dropIndex("index_name")
+```
+2.To drop all indexes on a collection, use the dropIndexes method.
+
+```javascript
+db.collection.dropIndexes()
+```
+
+## Aggregation Framework
+MongoDB's aggregation framework is a powerful tool that allows you to process and transform your data in complex ways, making it possible to perform data analysis directly within the database. Whether you need to filter, group, sort, or transform your data, the aggregation framework provides a flexible and efficient solution.
+
+It works by using a pipeline of stages, where each stage transforms the documents as they pass through. This pipeline model allows for powerful and flexible data manipulations, similar to SQL's GROUP BY and JOIN operations but with more versatility.
+
+### Key Components of the Aggregation Framework
+#### Aggregation Pipeline
+The aggregation pipeline is a sequence of stages, each performing a specific operation on the input documents. The output of one stage serves as the input to the next stage. Some of the commonly used stages include:
+
+- **$match**: Filters documents to pass only those that match the specified conditions.
+- **$group**: Groups input documents by a specified identifier expression and applies the accumulator expressions.
+- **$project**: Reshapes each document in the stream, such as including, excluding, or adding new fields.
+- **$sort**: Sorts the documents.
+- **$limit**: Limits the number of documents passing through the pipeline.
+- **$skip**: Skips a specified number of documents.
+- **$unwind**: Deconstructs an array field from the input documents to output a document for each element.
+
+#### Expressions
+Expressions are used within stages to compute values. They can include field paths, literals, and system variables, among others. MongoDB provides a rich set of expressions for arithmetic, string manipulation, array manipulation, and more.
+
+#### Basic Aggregation Operations
+1.The $match Stage : 
+The $match stage filters documents by specified criteria. It is similar to the find operation and is typically used as the first stage in the pipeline.
+
+```javascript
+db.orders.aggregate([
+{ $match: { status: "completed" } }
+])
+```
+
+2.The $group Stage : 
+The $group stage groups documents by a specified identifier and can perform operations such as sum, average, count, min, and max.
+
+```javascript
+db.orders.aggregate([
+{
+$group: {
+_id: "$customerId",
+totalAmount: { $sum: "$amount" },
+averageAmount: { $avg: "$amount" }
+}
+}
+])
+```
+
+3.The $project Stage : 
+The $project stage reshapes each document, allowing you to include, exclude, or add new fields.
+
+```javascript
+db.orders.aggregate([
+{
+$project: {
+customerId: 1,
+amount: 1,
+discount: { $multiply: ["$amount", 0.1] }
+}
+}
+])
+```
+
+4.The $sort Stage : 
+The $sort stage sorts the documents by specified fields in ascending or descending order.
+
+```javascript
+db.orders.aggregate([
+{ $sort: { amount: -1 } }
+])
+```
+
+5.The $limit and $skip Stages : 
+The $limit and $skip stages are used to control the number of documents in the output.
+This is like Pagination. "$skip" is for pageNo and "$limit" is for pageSize. 
+
+```javascript
+db.orders.aggregate([
+{ $sort: { amount: -1 } },
+{ $limit: 10 }
+])
+```
+
+You can create stages separately , add it to a list and then query them together using the **aggregate()** function.
+
+#### Here is an example of Aggregation Pipeline in JAVA.
+```java
+void workingOnAggregationPipeline() {
+    List<Document> stages = new ArrayList<>();
+    stages.add(new Document("$search",
+            new Document("index", "JobSearch").append("text",
+                    new Document("query", text).append("path", new Document(
+                            "wildcard", "*")))));
+    stages.add(new Document("$sort",
+            new Document(input.getSortBy(), Sort.Direction.ASC.equals(input.getSort()) ? 1 : -1)));
+    int skip = (input.getPageNo() - 1) * input.getPageSize();
+    stages.add(new Document("$skip", skip));
+    stages.add(new Document("$limit", input.getPageSize()));
+    AggregateIterable<Document> result = collection.aggregate(stages);
+}
+```
+#### In the Above Example :
+1. We are creating a list of pipeline stages.
+2. First Stage: The first stage is the Search stage. We are creating a document(representing a new json object '{}') for search stage and then inside search stage we have a document which mentions the index to be used 
+    and then the text to be searched.
+    "**Path**" is used to set the document fields which needs to be scanned for that text , 
+    We can mention a list of fields or as mentioned here use a wildcard which means to scan the whole document.
+3. Second Stage: the second stage is the Sort stage. Output from First stage will be used in second stage. 
+   Here we are creating a document for sort and inside that we have another document which contains a field on which it needs to be sorted and the Direction in which it needs to be sorted.
+   **1 means Ascending order and -1 means descending order.**
+4. Third Stage : The third stage is the Skip stage. Similar to first two here we create a document of skip and mentioned the pages it need to skip to reach the desired page.
+5. Fourth Stage : The fourth stage is limit stage. It will limit the page size.
+6. Then all the stage are aggregated together using the aggregate function.
+
+#### The Above example of Aggregation pipeline in Shell form.
+```javascript
+db.collection.aggregate([
+    {
+        $search: {
+            index: "JobSearch",
+            text: {
+                query: text,
+                path: {
+                    wildcard: "*"
+                }
+            }
+        }
+    },
+    {
+        $sort: {
+            [input.sortBy]: input.sort === "ASC" ? 1 : -1
+        }
+    },
+    {
+        $skip: (input.pageNo - 1) * input.pageSize
+    },
+    {
+        $limit: input.pageSize
+    }
+]);
+```
