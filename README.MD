@@ -39,7 +39,7 @@ Usually choosing the type of db depends on the requirement of the application. B
 MongoDB stores documents in collections. Collections in MongoDB are comparable to tables in relational databases.
 
 ## Document
-A record in MongoDB is a document, consisting of field and value pairs. These documents resemble JSON objects and can contain nested documents, arrays, and arrays of documents.
+A record consists of field and value pairs, also known as document in MongoDB, . These documents resemble JSON objects and can contain nested documents, arrays, and arrays of documents.
 ![documentView](img.png)
 
 Documents are stored in a format called BSON (Binary JSON).
@@ -71,10 +71,10 @@ ObjectIds are small, ordered , likely unique, and fast to generate .
 
 **_id** : _ObjectId_('6643416132f2740742398b74')
 
-ObjectId values are **12 bytes** in length, consisting of:
+ObjectId values have a length of **12 bytes** , which includes :
 1. A 4-byte timestamp, representing the ObjectId's creation, measured in seconds since the Unix epoch.
-2. A 5-byte random value generated once per process. This random value is unique to the machine and process.
-3. A 3-byte incrementing counter, initialized to a random value.
+2. A 5-byte random value that is generated once per process , is unique to the machine and process.
+3. A 3-byte is an incrementing counter which is initialized to a random value.
 
 In MongoDB, every document in a collection must have a unique **_id** field that serves as the primary key. 
 If a document is inserted without an _id field, MongoDB will automatically generate an ObjectId for it. 
@@ -101,7 +101,7 @@ You can also create a collection by [inserting a document](#Insert-A-Document) i
 >db.my_collection.insertOne({ name: "shruti" })
 
 ## Collection Validation/Constraints
-Validation lets you create validation rules for your fields, such as allowed data types and value ranges.
+Validation helps in creating validation/restriction rules on fields, such as value ranges ,data types allowed, etc .
 MongoDB offers flexible design , but still if you want to impose some constraints on collection for application requirement like:
 * Password should be only string.
 * Email should be matching a regex.
